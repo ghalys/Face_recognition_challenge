@@ -129,7 +129,7 @@ face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalf
 #parameter for the detection
 scaleFactor  = 1.05
 minNeighbors = 6
-minsize      = 20
+minsize      = 100
 # maxsize      = 700
 
 def MyFaceDetectionFunction(img): #from lab 1
@@ -189,28 +189,82 @@ def See_detection(img,M):
 # See_detection(img,M)
 
 
-import scipy.io as sio
-import numpy as np
-new_data=[]
-i=1
-folder_name = original_path + "Dataset"
-for name_folder in os.listdir(folder_name):
-    parts = name_folder.split("_")
-    label = parts[0]
-    path = original_path + "Dataset/" +name_folder
+# import scipy.io as sio
+# import numpy as np
+# new_data=[]
+# i=1
+# folder_name = original_path + "Dataset"
+# for name_folder in os.listdir(folder_name):
+#     parts = name_folder.split("_")
+#     label = parts[0]
+#     path = original_path + "Dataset/" +name_folder
     
-    for filename in os.listdir(path):
-        if filename.endswith(".jpg"): 
-            image = filename
-            print(filename)
-            img = cv.imread(path+"/"+filename)
-            M =MyFaceDetectionFunction(img)
-            faces = select_two_biggest_faces(M)
-            if len(faces)==1:
-                new_data.append([image,label,faces[0]])
+#     for filename in os.listdir(path):
+#         if filename.endswith(".jpg"): 
+#             image = filename
+#             print(filename)
+#             img = cv.imread(path+"/"+filename)
+#             M =MyFaceDetectionFunction(img)
+#             faces = select_two_biggest_faces(M)
+#             if len(faces)==1:
+#                 new_data.append([image,label,faces[0]])
                 
 # # print(new_data[0])
 # data_dict = {'donnees': new_data}
 
 # # Enregistrez les données dans un fichier MATLAB
 # sio.savemat('new_images.mat', data_dict)
+
+
+# We are trying here to get the new images
+import json
+import numpy as np
+import pandas as pd
+import os
+import cv2 as cv  # Assurez-vous d'avoir cv2 installé pour utiliser cv.imread
+
+# original_path = "C:/Users/asent/Desktop/S4_Barcelona/FaceDetection/FACE_DETECTION_CHALLENGE/"
+# # TrainingimgPath       = original_path + "TRAINING/"
+# imgPath    = original_path + "AllImages/"
+# folder_name = original_path + "Dataset"
+# from scipy.io import savemat
+
+# # new_data = pd.DataFrame(columns=['Label', 'Image', 'Faces'])
+# # new_data = []
+# structured_data = {'Label': [], 'Image': [], 'Faces': []}
+
+
+# for name_folder in os.listdir(folder_name):
+#     parts = name_folder.split("_")
+#     label = parts[0]
+#     path = os.path.join(original_path, "Dataset", name_folder)
+    
+#     for filename in os.listdir(path):
+#         image = filename
+#         img = cv.imread(os.path.join(path, filename))
+#         M = MyFaceDetectionFunction(img)
+#         faces = select_two_biggest_faces(M)
+#         print(image)
+#         if len(faces) == 1:
+#             structured_data['Label'].append(label)
+#             structured_data['Image'].append(image)
+#             structured_data['Faces'].append(faces)
+
+
+# savemat("new_dataset.mat", {"data": structured_data})
+
+
+new_data = []
+
+for name_folder in os.listdir(folder_name):
+    parts = name_folder.split("_")
+    label = parts[0]
+    path = os.path.join(original_path, "Dataset", name_folder)
+    
+    for filename in os.listdir(path):
+        image = filename
+        img = cv.imread(os.path.join(path, filename))
+        M = MyFaceDetectionFunction(img)
+        faces = select_two_biggest_faces(M)
+        if len(faces) == 1:
+            new_data.append([int(label), image, faces])
