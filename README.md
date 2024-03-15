@@ -1,6 +1,4 @@
 This project is part of a challenge about face recognition
-![WhatsApp Image 2024-02-26 à 13 38 07_b027cde6](https://github.com/ghalys/Face_recognition_challenge/assets/127297865/a0585e44-75aa-43db-bcdc-8c7b236fff8b)
-
 
 ## Introduction
 This project aimed to produce an automatic facial recognition system in which we chose to work with Python. The performance will be trained on a test set of 1200 facial images. The goal of this project is to identify if any user that is specified in the training dataset is present or not in the image, which will return “-1” if there’s an imposter, and if the user is in the image the model will return his/her identity, in total we have 80 different users to identify. This challenge aims to get over 20% in the testing.
@@ -30,6 +28,7 @@ Given the restrictions of the challenge, several approaches were tested (most of
 # Step 1: 
 A common practice for training AI models is to split the training data into training and validation sets. A common ratio for that is 4/1 respectively.
 # Step 2: Preprocessing of images for training 
+![WhatsApp Image 2024-02-26 à 13 38 07_b027cde6](https://github.com/ghalys/Face_recognition_challenge/assets/127297865/a0585e44-75aa-43db-bcdc-8c7b236fff8b)
 Each of the images is loaded together with its corresponding label and faces, or rather - the coordinates of their bounding boxes (taken from a previously provided MatLab file). The original dataset and the additional one are added together. The images are iterated over, cropped at the bounding box coordinates, resized to a consistent size (multiple options were tried, but for the final model 180x180 pixels size was used) such that each image has the same dimension which is crucial for training a CNN and normalized. We chose colored images to have more accuracy, but we were aware of the computational cost at training. At the end the label and image are added together such that they can be fed to the model for training.
 # Step 2.1: Preprocessing of images for validation/testing 
 Images for validation and/or testing are preprocessed in a slightly different way. Instead of taking the bounding boxes of the faces from a file, the face detection model built in the first challenge is used. This provides the bounding box and images are then preprocessed in the same way as for training.
@@ -40,9 +39,9 @@ Images for validation and/or testing are preprocessed in a slightly different wa
 
 The structure used for the models was not strictly determined but the main objective was to tweak it to fulfill the project’s requirements.  At first it seemed reasonable to try and find pretrained models to finetune with the initial dataset. For this we tried a VGG16 structure but it had too many parameters and the performance was not good enough to cover even the minimal requirements for the project. After trying that other options were searched but nothing was found that would account for the limitations. As such it was decided to move onto building a custom CNN with layers from Keras 3 [4]. Various combinations of layers and hyperparameters were explored. Changes were made to the number of layers, number of convolutional blocks, structure of convolutional blocks, the batch size, the size of the images, the number of filters in the convolutional layers, kernel sizes, optimizers, etc. Given that building a custom CNN is not a precise science, a lot of combinations were explored and tried but it is hard to describe them all. After these did not yield good results with the initial dataset it was decided to move on to a Siamese Neural Network structure, which in general require less training samples compared to a simple CNN as they rely on contrastive estimations [5]. This did not yield the desired results and we were back to CNN, but after more trial and error both the training and validation accuracies would get stuck at around 65 and would yield F1 scores of less than 20 (the minimum for the project). It was at this point that it was decided that the best way to improve the results would be to collect more images (the process for which is described above in Step 0). After the collection of images performances improved, but what really changed the result was changing the batch size (to 32) and the image size (to 180x180 pixels). The final improvement was obtained by switching from grayscale to color. This yielded an F1 of around 85% when validating with the provided python functions. 
 
-![WhatsApp Image 2024-02-29 à 17 24 03_be40654e](https://github.com/ghalys/Face_recognition_challenge/assets/127297865/334a2402-b068-40ad-9bc5-2717a4c761f7)
 
 # Step 4: Testing the Model
+![WhatsApp Image 2024-02-29 à 17 24 03_be40654e](https://github.com/ghalys/Face_recognition_challenge/assets/127297865/334a2402-b068-40ad-9bc5-2717a4c761f7)
 Before applying the model prediction on a testing image, we check first if the image has a face. if not, we already return -1 without using the model. And then for images that have two or more faces detected, we return the class associated with the highest probability given by the model. At the end, we got 85% for the validation set. 
 
 ## Conclusion
