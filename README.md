@@ -1,4 +1,6 @@
 This project is part of a challenge about face recognition
+![WhatsApp Image 2024-02-26 à 13 38 07_b027cde6](https://github.com/ghalys/Face_recognition_challenge/assets/127297865/a0585e44-75aa-43db-bcdc-8c7b236fff8b)
+
 
 ## Introduction
 This project aimed to produce an automatic facial recognition system in which we chose to work with Python. The performance will be trained on a test set of 1200 facial images. The goal of this project is to identify if any user that is specified in the training dataset is present or not in the image, which will return “-1” if there’s an imposter, and if the user is in the image the model will return his/her identity, in total we have 80 different users to identify. This challenge aims to get over 20% in the testing.
