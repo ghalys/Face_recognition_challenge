@@ -15,6 +15,9 @@ In this project, it is essential to apply knowledge acquired during this course.
 ## State of the Art
 To work with Deep Learning it is necessarily a Neural Network. Convolutional Neural Networks (CNNs) are good at understanding and working with images, speech, or sounds. As they go through each layer, they become better at recognizing different parts of the image, making them very effective in image recognition [1].
 This Convolutional Neural Network works with three main layers: The convolutional layer, the Pooling Layer, and the fully connected (FC) layer. The convolutional layer is central to a CNN, handling most of the computation. It needs three main components: input data, a filter, and a feature map. The Pooling Layer scans a filter across the entire input, but unlike other filters, this one doesn't have any weights, this has two main types of pooling: Max pooling and Average Pooling [1].
+Here is an example of a CNN configuration :
+![WhatsApp Image 2024-03-01 à 17 27 00_7063db0a](https://github.com/ghalys/Face_recognition_challenge/assets/127297865/02c199c2-eca4-40c5-86bd-484dba5a0e61)
+
 To do the detection of faces, the Viola-Jones method was used. This method integrates support vector machines, boosting algorithms, and cascade classifiers. Its application extends to processing digital images to identify facial positions within them [2]. One of the reasons why this method was chosen is because its effectiveness is high and the laboratories had already worked with this method in the past.
 
 To have the images in the right format before the training it is necessary to know how to Preprocess the image. For this point, these are some of the steps involved in image preprocessing: image loading, resizing so that all images can be uniformly sized, color correction for consistency, normalization of pixel values, and to facilitate processing, conversion to grayscale.
